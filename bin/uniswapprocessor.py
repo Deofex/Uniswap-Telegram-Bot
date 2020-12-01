@@ -13,10 +13,14 @@ class UniswapProcessor():
         logger.info("Start Uniswap Processor")
 
     def process_uniswaptransactionbatch(self):
+        # Get all transaction for the UniSwap address from the last processed
+        # blocknumber
         logger.info("Start looking for a new Uniswap transaction batch")
         utb = UniswapTransactionBatch(settings.config.lastprocessedblocknumber)
 
         logger.info("Processing Uniswap transaction batch")
+        # Foreach transaction has in the batch, get the information from the
+        # transaction (amount, pair token, price etc. will be returned)
         for transactionhash in utb.transactionhashes:
             try:
                 ut = UniswapTransaction(transactionhash)
@@ -27,6 +31,8 @@ class UniswapProcessor():
 
             ut = UniswapTransaction(transactionhash)
 
+            # Send message to active Telegram channels with the information
+            # gathered earlier
             if ut.action == "Bought":
                 msg = (
                 "<b>{primarytokenname} {action} in block {blocknumber}</b>\n"
