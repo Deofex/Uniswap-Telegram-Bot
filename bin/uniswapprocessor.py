@@ -34,7 +34,7 @@ class UniswapProcessor():
             # gathered earlier
             if ut.action == "Bought":
                 msg = (
-                "<b>{primarytokenname} {action} in block {blocknumber}</b>\n"
+                "<b>{primarytokenname} {action} in block {blocknumber}</b>\n\n"
                 "{pairtokenamount} {pairtokenname} "
                 "swapped for: {primarytokenamount} {primarytokensymbol}\n"
                 "<b>Fiat worth:</b> {fiatpricetotal} {fiatsymbol} "
@@ -59,7 +59,7 @@ class UniswapProcessor():
                 )
             elif ut.action == "Sold":
                 msg = (
-                "<b>{primarytokenname} {action} in block {blocknumber}</b>\n"
+                "<b>{primarytokenname} {action} in block {blocknumber}</b>\n\n"
                 "{primarytokenamount} {primarytokensymbol} "
                 "swapped for: {pairtokenamount} {pairtokenname}\n"
                 "<b>Fiat worth:</b> {fiatpricetotal} {fiatsymbol} "
