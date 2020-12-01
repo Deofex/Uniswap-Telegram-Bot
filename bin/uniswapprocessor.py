@@ -3,6 +3,7 @@ import time
 import bin.settings as settings
 from api.etherscan.uniswaptransactionbatch import UniswapTransactionBatch
 from api.etherscan.uniswaptransaction import UniswapTransaction
+from api.etherscan.gettokenamount import gettokenamount
 from api.telegram.telegramsendmessage import TelegramSendMessage
 
 # Configure logging
@@ -34,11 +35,11 @@ class UniswapProcessor():
             if ut.action == "Bought":
                 msg = (
                 "<b>{primarytokenname} {action} in block {blocknumber}</b>\n"
-                "{pairtokenamount} {tokenname} "
+                "{pairtokenamount} {pairtokenname} "
                 "swapped for: {primarytokenamount} {primarytokensymbol}\n"
                 "<b>Fiat worth:</b> {fiatpricetotal} {fiatsymbol} "
                 "<i>(Price per token: {fiatpricepertoken} {fiatsymbol})</i>\n"
-                "<b>TX here:</b> "
+                "\n<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a> - "
                 "<b>Wallet:</b> "
                 "<a href=\"https://etherscan.io/address/{wallet}\">link</a>\n"
@@ -48,7 +49,7 @@ class UniswapProcessor():
                     primarytokenname = settings.config.primarytokenname,
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
-                    tokenname = ut.pairtoken.tokenname,
+                    pairtokenname = ut.pairtoken.tokenname,
                     fiatpricetotal = round(ut.fiatpricetotal,2),
                     fiatsymbol = settings.config.fiatsymbol.upper(),
                     txhash = ut.txhash,
@@ -60,10 +61,10 @@ class UniswapProcessor():
                 msg = (
                 "<b>{primarytokenname} {action} in block {blocknumber}</b>\n"
                 "{primarytokenamount} {primarytokensymbol} "
-                "swapped for: {pairtokenamount} {tokenname}\n"
+                "swapped for: {pairtokenamount} {pairtokenname}\n"
                 "<b>Fiat worth:</b> {fiatpricetotal} {fiatsymbol} "
                 "<i>(Price per token: {fiatpricepertoken} {fiatsymbol})</i>\n"
-                "<b>TX here:</b> "
+                "\n<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a> - "
                 "<b>Wallet:</b> "
                 "<a href=\"https://etherscan.io/address/{wallet}\">link</a>\n"
@@ -73,7 +74,7 @@ class UniswapProcessor():
                     primarytokenname = settings.config.primarytokenname,
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
-                    tokenname = ut.pairtoken.tokenname,
+                    pairtokenname = ut.pairtoken.tokenname,
                     fiatpricetotal = round(ut.fiatpricetotal,2),
                     fiatsymbol = settings.config.fiatsymbol.upper(),
                     txhash = ut.txhash,
@@ -82,26 +83,41 @@ class UniswapProcessor():
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
                 )
             else:
+                # else = liquidity added or removed, calculate current balances
+                # of Uniswap address and pairtoken
+                pairtokenatuniswap = gettokenamount(
+                    settings.config.uniswapaddress,
+                    ut.pairtoken.contractaddress
+                )
+                primarytokenatuniswap = gettokenamount(
+                    settings.config.uniswapaddress,
+                    settings.config.primarytokencontractaddress
+                )
                 msg = (
                 "<b>{action} in block {blocknumber}</b>\n"
-                "{pairtokenamount} {tokenname} and "
+                "{pairtokenamount} {pairtokenname} and "
                 "{primarytokenamount} {primarytokensymbol}\n"
                 "<b>Combined value:</b> {fiatpricetotal} {fiatsymbol}\n"
-                "<b>TX here:</b> "
+                "\n<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a> - "
                 "<b>Wallet:</b> "
                 "<a href=\"https://etherscan.io/address/{wallet}\">link</a>\n"
+                "\n<b>New pooled token amounts:</b>\n"
+                "Pooled {pairtokenname}:{pairtokenatuniswap}\n"
+                "Pooled {primarytokensymbol}: {primarytokenatuniswap}"
                 ).format(
                     action = ut.action,
                     primarytokenamount = round(ut.primarytokenamount,2),
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
-                    tokenname = ut.pairtoken.tokenname,
+                    pairtokenname = ut.pairtoken.tokenname,
                     fiatpricetotal = round(ut.fiatpricetotal,2) * 2,
                     fiatsymbol = settings.config.fiatsymbol.upper(),
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
-                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
+                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),
+                    pairtokenatuniswap = round(pairtokenatuniswap,2),
+                    primarytokenatuniswap = round(primarytokenatuniswap,2)
                 )
 
             for channel in settings.config.telegramactivatedchannels:
