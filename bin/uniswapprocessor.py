@@ -29,8 +29,6 @@ class UniswapProcessor():
                     transactionhash))
                 continue
 
-            ut = UniswapTransaction(transactionhash)
-
             # Send message to active Telegram channels with the information
             # gathered earlier
             if ut.action == "Bought":
