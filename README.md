@@ -18,7 +18,9 @@ source env\bin\activate
 pip install -r requirements.txt
 ```
 * Join the corresponding Telegram bot a a Telegram channel and make sure it's allowed to post messages
+* Active the bot by typing the command "/start" in the channel
 * Start main.py and new tokens swaps and liquidity changes should appear in the channel
+
 
 ## Add the bot to systemd
 * Create a bash file (uniswaptelegrambot.sh)
