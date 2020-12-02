@@ -41,7 +41,7 @@ class UniswapProcessor():
                 "<b>{primarytokenname} {action} {actionicon}</b>\n"
                 "Block: {blocknumber}\n\n"
                 "<b>{primarytokenamount} {primarytokensymbol}</b> "
-                "swapped for: <b>{pairtokenamount} {pairtokenname}</b>\n"
+                "{laction} for <b>{pairtokenamount} {pairtokenname}</b>\n"
                 "<b>GET Value:</b> {fiatpricetotal} {fiatsymbol}\n"
                 "<i>(Price per {primarytokensymbol}: "
                 "{fiatpricepertoken} {fiatsymbol} / "
@@ -53,6 +53,7 @@ class UniswapProcessor():
                 "<a href=\"https://etherscan.io/address/{wallet}\">{wallet}</a>"
                 ).format(
                     action = ut.action,
+                    laction = ut.action.lower(),
                     actionicon = actionicon,
                     primarytokenamount = round(ut.primarytokenamount,2),
                     primarytokenname = settings.config.primarytokenname,
