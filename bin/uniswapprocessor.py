@@ -32,24 +32,33 @@ class UniswapProcessor():
 
             # Send message to active Telegram channels with the information
             # gathered earlier
-            if ut.action == "Bought":
+            if ut.action == "Sold" or ut.action == "Bought":
+                if ut.action == "Bought":
+                    actionicon = "\U0001f7e2"
+                if ut.action == "Sold":
+                    actionicon = "\U0001f534"
                 msg = (
-                "<b>{primarytokenname} {action} in block {blocknumber}</b>\n\n"
-                "{pairtokenamount} {pairtokenname} "
-                "swapped for: {primarytokenamount} {primarytokensymbol}\n"
-                "<b>Fiat worth:</b> {fiatpricetotal} {fiatsymbol} "
-                "<i>(Price per token: {fiatpricepertoken} {fiatsymbol})</i>\n"
-                "\n<b>TX here:</b> "
-                "<a href=\"https://etherscan.io/tx/{txhash}\">link</a> - "
+                "<b>{primarytokenname} {action} {actionicon}</b>\n"
+                "Block: {blocknumber}\n\n"
+                "<b>{primarytokenamount} {primarytokensymbol}</b> "
+                "swapped for: <b>{pairtokenamount} {pairtokenname}</b>\n"
+                "<b>GET Value:</b> {fiatpricetotal} {fiatsymbol} "
+                "<i>(Price per {primarytokensymbol}: "
+                "{fiatpricepertoken} {fiatsymbol})</i>\n\n"
+                "1 {pairtokenname} = {pairtokenprice} {fiatsymbol}\n\n"
+                "<b>TX here:</b> "
+                "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
                 "<b>Wallet:</b> "
-                "<a href=\"https://etherscan.io/address/{wallet}\">link</a>\n"
+                "<a href=\"https://etherscan.io/address/{wallet}\">{wallet}</a>"
                 ).format(
                     action = ut.action,
+                    actionicon = actionicon,
                     primarytokenamount = round(ut.primarytokenamount,2),
                     primarytokenname = settings.config.primarytokenname,
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
                     pairtokenname = ut.pairtoken.tokenname,
+                    pairtokenprice = round(ut.pairtoken.fiatprice,2),
                     fiatpricetotal = round(ut.fiatpricetotal,2),
                     fiatsymbol = settings.config.fiatsymbol.upper(),
                     txhash = ut.txhash,
@@ -57,34 +66,14 @@ class UniswapProcessor():
                     fiatpricepertoken= round(ut.fiatpricepertoken,2),
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
                 )
-            elif ut.action == "Sold":
-                msg = (
-                "<b>{primarytokenname} {action} in block {blocknumber}</b>\n\n"
-                "{primarytokenamount} {primarytokensymbol} "
-                "swapped for: {pairtokenamount} {pairtokenname}\n"
-                "<b>Fiat worth:</b> {fiatpricetotal} {fiatsymbol} "
-                "<i>(Price per token: {fiatpricepertoken} {fiatsymbol})</i>\n"
-                "\n<b>TX here:</b> "
-                "<a href=\"https://etherscan.io/tx/{txhash}\">link</a> - "
-                "<b>Wallet:</b> "
-                "<a href=\"https://etherscan.io/address/{wallet}\">link</a>\n"
-                ).format(
-                    action = ut.action,
-                    primarytokenamount = round(ut.primarytokenamount,2),
-                    primarytokenname = settings.config.primarytokenname,
-                    primarytokensymbol = settings.config.primarytokensymbol,
-                    pairtokenamount = round(ut.pairtokenamount,2),
-                    pairtokenname = ut.pairtoken.tokenname,
-                    fiatpricetotal = round(ut.fiatpricetotal,2),
-                    fiatsymbol = settings.config.fiatsymbol.upper(),
-                    txhash = ut.txhash,
-                    blocknumber = ut.blocknumber,
-                    fiatpricepertoken= round(ut.fiatpricepertoken,2),
-                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
-                )
-            else:
-                # else = liquidity added or removed, calculate current balances
-                # of Uniswap address and pairtoken
+            elif ut.action == 'Liquidity Added' or \
+                ut.action == 'Liquidity Removed':
+
+                if ut.action == 'Liquidity Added':
+                    actionicon = '\U0001f7e9'
+                if ut.action == 'Liquidity Removed':
+                    actionicon = '\U0001f7e5'
+
                 pairtokenatuniswap = gettokenamount(
                     settings.config.uniswapaddress,
                     ut.pairtoken.contractaddress
@@ -94,19 +83,21 @@ class UniswapProcessor():
                     settings.config.primarytokencontractaddress
                 )
                 msg = (
-                "<b>{action} in block {blocknumber}</b>\n"
-                "{pairtokenamount} {pairtokenname} and "
-                "{primarytokenamount} {primarytokensymbol}\n"
-                "<b>Combined value:</b> {fiatpricetotal} {fiatsymbol}\n"
-                "\n<b>TX here:</b> "
-                "<a href=\"https://etherscan.io/tx/{txhash}\">link</a> - "
+                "<b>{action}</b> {actionicon}\n"
+                "Block: {blocknumber}\n\n"
+                "<b>{pairtokenamount} {pairtokenname}</b> and "
+                "<b>{primarytokenamount} {primarytokensymbol}</b>\n"
+                "<b>Combined value:</b> {fiatpricetotal} {fiatsymbol}\n\n"
+                "<b>TX here:</b> "
+                "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
                 "<b>Wallet:</b> "
-                "<a href=\"https://etherscan.io/address/{wallet}\">link</a>\n"
-                "\n<b>New pooled token amounts:</b>\n"
-                "Pooled {pairtokenname}:{pairtokenatuniswap}\n"
+                "<a href=\"https://etherscan.io/address/{wallet}\">{wallet}</a>"
+                "\n\n<b>New pooled token amounts:</b>\n"
+                "Pooled {pairtokenname}: {pairtokenatuniswap}\n"
                 "Pooled {primarytokensymbol}: {primarytokenatuniswap}"
                 ).format(
                     action = ut.action,
+                    actionicon = actionicon,
                     primarytokenamount = round(ut.primarytokenamount,2),
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
