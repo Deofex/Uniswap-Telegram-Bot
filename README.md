@@ -4,7 +4,7 @@ This bot provides information when a swap or liquidity change for a specific Uni
 ## Installation
 * Copy settings.default to settings.config
 * Add the Telegram bot API and the etherscan API
-* Change the attributes in the [PrimaryToken] and [Fiat] attributes (By default these attributes are configured for the GET Protocol + Euros)
+* Change the attributes in the [PrimaryToken]  (By default these attributes are configured for the GET Protocol )
 * Create a virtual environment
 ```
 python3 -m venv env

@@ -6,9 +6,6 @@ primarytokencontractaddress = 0x8a854288a5976036a725879164ca3e91d30c6a1b
 [EtherScanAPI]
 etherscanapikey = ETHERSCANAPIKEYHERE
 
-[Fiat]
-fiatsymbol = eur
-
 [Uniswap]
 uniswapaddress = 0x2680a95fc9de215f1034f073185cc1f2a28b4107
 

@@ -25,8 +25,8 @@ class UniswapTransaction():
         self.primarytokenamount = None
         self.pairtoken = None
         self.pairtokenamount = None
-        self.fiatpricetotal = None
-        self.fiatpricepertoken = None
+        self.eurpricetotal = None
+        self.eurpricepertoken = None
         self.wallet = None
 
         # Get content from EtherScan
@@ -132,14 +132,14 @@ class UniswapTransaction():
                 self.pairtoken.tokenname, self.pairtokenamount))
 
     def calculate_price(self):
-        self.fiatpricetotal = self.pairtokenamount * self.pairtoken.fiatprice
-        logger.info("Calculated fiat price total transaction: {} {}".format(
-            self.fiatpricetotal, self.pairtoken.fiatsymbol
+        self.eurpricetotal = self.pairtokenamount * self.pairtoken.eurprice
+        logger.info("Calculated eur price total transaction: €{}".format(
+            self.eurpricetotal
         ))
 
-        self.fiatpricepertoken = self.fiatpricetotal / self.primarytokenamount
-        logger.info("Calculated fiat price per token: {} {}".format(
-            self.fiatpricepertoken, self.pairtoken.fiatsymbol
+        self.eurpricepertoken = self.eurpricetotal / self.primarytokenamount
+        logger.info("Calculated eur price per token: €{}".format(
+            self.eurpricepertoken
         ))
 
         # Calculte the price compared to the paired token

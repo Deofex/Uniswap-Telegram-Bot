@@ -42,11 +42,11 @@ class UniswapProcessor():
                 "Block: {blocknumber}\n\n"
                 "<b>{primarytokenamount} {primarytokensymbol}</b> "
                 "{laction} for <b>{pairtokenamount} {pairtokenname}</b>\n"
-                "<b>GET Value:</b> {fiatpricetotal} {fiatsymbol}\n"
+                "<b>GET Value:</b> {eurpricetotal} EUR\n"
                 "<i>(Price per {primarytokensymbol}: "
-                "{fiatpricepertoken} {fiatsymbol} / "
+                "{eurpricepertoken} EUR / "
                 "{pairtokenpricept} {pairtokenname})</i>\n\n"
-                "1 {pairtokenname} = {pairtokenprice} {fiatsymbol}\n\n"
+                "1 {pairtokenname} = {pairtokenprice} EUR\n\n"
                 "<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
                 "<b>Wallet:</b> "
@@ -60,12 +60,11 @@ class UniswapProcessor():
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
                     pairtokenname = ut.pairtoken.tokenname,
-                    pairtokenprice = round(ut.pairtoken.fiatprice,2),
-                    fiatpricetotal = round(ut.fiatpricetotal,2),
-                    fiatsymbol = settings.config.fiatsymbol.upper(),
+                    pairtokenprice = round(ut.pairtoken.eurprice,2),
+                    eurpricetotal = round(ut.eurpricetotal,2),
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
-                    fiatpricepertoken= round(ut.fiatpricepertoken,2),
+                    eurpricepertoken= round(ut.eurpricepertoken,2),
                     pairtokenpricept = round(ut.pairtokenpricept,8),
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
                 )
@@ -90,7 +89,7 @@ class UniswapProcessor():
                 "Block: {blocknumber}\n\n"
                 "<b>{pairtokenamount} {pairtokenname}</b> and "
                 "<b>{primarytokenamount} {primarytokensymbol}</b>\n"
-                "<b>Combined value:</b> {fiatpricetotal} {fiatsymbol}\n\n"
+                "<b>Combined value:</b> {eurpricetotal} EUR\n\n"
                 "<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
                 "<b>Wallet:</b> "
@@ -105,8 +104,7 @@ class UniswapProcessor():
                     primarytokensymbol = settings.config.primarytokensymbol,
                     pairtokenamount = round(ut.pairtokenamount,2),
                     pairtokenname = ut.pairtoken.tokenname,
-                    fiatpricetotal = round(ut.fiatpricetotal,2) * 2,
-                    fiatsymbol = settings.config.fiatsymbol.upper(),
+                    eurpricetotal = round(ut.eurpricetotal,2) * 2,
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),

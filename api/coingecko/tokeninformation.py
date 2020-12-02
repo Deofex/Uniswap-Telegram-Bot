@@ -17,9 +17,8 @@ class TokenInformation():
             "Collecting token information for contract address: {}".format(
                 contractaddress))
         self.contractaddress = contractaddress
-        self.fiatsymbol = settings.config.fiatsymbol
         self.json = None
-        self.fiatprice = None
+        self.eurprice = None
         self.tokenname = None
         self.tokensymbol = None
 
@@ -48,9 +47,9 @@ class TokenInformation():
         self.tokensymbol = self.json['symbol']
         logger.info("The following token symbol has been found: {}".format(
             self.tokensymbol))
-        self.fiatprice = Decimal(
-            self.json['market_data']['current_price'][self.fiatsymbol])
-        logger.info("The following fiatprice has been found: {} {}".format(
-            self.fiatprice,self.fiatsymbol))
+        self.eurprice = Decimal(
+            self.json['market_data']['current_price']["eur"])
+        logger.info("The following Euro price has been found: {} {}".format(
+            self.eurprice,"eur"))
 
 

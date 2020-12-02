@@ -16,7 +16,6 @@ class Config():
         self.primarytokensymbol = None
         self.primarytokencontractaddress = None
         self.uniswapaddress = None
-        self.fiatsymbol = None
         self.lastprocessedblocknumber = None
         self.telegramapitoken = None
         self.telegramlastprocessedupdateid = None
@@ -49,10 +48,6 @@ class Config():
         self.etherscanapikey = \
             self.config['EtherScanAPI']['etherscanapikey']
         logger.info('EtherScan API Key: {}'.format(self.etherscanapikey))
-        # Import Fiat symbol
-        self.fiatsymbol = \
-            self.config['Fiat']['fiatsymbol']
-        logger.info('Fiat Symbol: {}'.format(self.fiatsymbol))
         # Import Uniswap address
         self.uniswapaddress = \
             self.config['Uniswap']['uniswapaddress']
