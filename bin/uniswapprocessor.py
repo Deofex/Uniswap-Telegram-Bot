@@ -42,9 +42,10 @@ class UniswapProcessor():
                 "Block: {blocknumber}\n\n"
                 "<b>{primarytokenamount} {primarytokensymbol}</b> "
                 "swapped for: <b>{pairtokenamount} {pairtokenname}</b>\n"
-                "<b>GET Value:</b> {fiatpricetotal} {fiatsymbol} "
+                "<b>GET Value:</b> {fiatpricetotal} {fiatsymbol}\n"
                 "<i>(Price per {primarytokensymbol}: "
-                "{fiatpricepertoken} {fiatsymbol})</i>\n\n"
+                "{fiatpricepertoken} {fiatsymbol} / "
+                "{pairtokenpricept} {pairtokenname})</i>\n\n"
                 "1 {pairtokenname} = {pairtokenprice} {fiatsymbol}\n\n"
                 "<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
@@ -64,6 +65,7 @@ class UniswapProcessor():
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
                     fiatpricepertoken= round(ut.fiatpricepertoken,2),
+                    pairtokenpricept = round(ut.pairtokenpricept,8),
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
                 )
             elif ut.action == 'Liquidity Added' or \

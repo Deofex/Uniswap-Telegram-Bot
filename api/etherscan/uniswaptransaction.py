@@ -142,6 +142,12 @@ class UniswapTransaction():
             self.fiatpricepertoken, self.pairtoken.fiatsymbol
         ))
 
+        # Calculte the price compared to the paired token
+        self.pairtokenpricept = self.pairtokenamount / self.primarytokenamount
+        logger.info("Calculated the paired price per token: {} {}".format(
+            self.pairtokenpricept, self.pairtoken.tokenname
+        ))
+
 
     def __str__(self):
         return "Uniswap transactionobject for txhash: {}".format(self.txhash)
