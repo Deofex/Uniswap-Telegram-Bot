@@ -19,6 +19,7 @@ class TokenInformation():
         self.contractaddress = contractaddress
         self.json = None
         self.eurprice = None
+        self.usdprice = None
         self.tokenname = None
         self.tokensymbol = None
 
@@ -49,7 +50,9 @@ class TokenInformation():
             self.tokensymbol))
         self.eurprice = Decimal(
             self.json['market_data']['current_price']["eur"])
-        logger.info("The following Euro price has been found: {} {}".format(
-            self.eurprice,"eur"))
-
-
+        logger.info("The following Euro price has been found: €{}".format(
+            self.eurprice))
+        self.usdprice = Decimal(
+            self.json['market_data']['current_price']["usd"])
+        logger.info("The following Dollar price has been found: ${}".format(
+            self.usdprice))

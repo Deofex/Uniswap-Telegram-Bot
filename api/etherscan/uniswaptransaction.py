@@ -27,6 +27,8 @@ class UniswapTransaction():
         self.pairtokenamount = None
         self.eurpricetotal = None
         self.eurpricepertoken = None
+        self.usdpricetotal = None
+        self.usdpricepertoken = None
         self.wallet = None
 
         # Get content from EtherScan
@@ -133,14 +135,25 @@ class UniswapTransaction():
 
     def calculate_price(self):
         self.eurpricetotal = self.pairtokenamount * self.pairtoken.eurprice
-        logger.info("Calculated eur price total transaction: €{}".format(
+        logger.info("Calculated Euro price total transaction: €{}".format(
             self.eurpricetotal
         ))
 
+        self.usdpricetotal = self.pairtokenamount * self.pairtoken.usdprice
+        logger.info("Calculated Dollar price total transaction: ${}".format(
+            self.usdpricetotal
+        ))
+
         self.eurpricepertoken = self.eurpricetotal / self.primarytokenamount
-        logger.info("Calculated eur price per token: €{}".format(
+        logger.info("Calculated Euro price per token: €{}".format(
             self.eurpricepertoken
         ))
+
+        self.usdpricepertoken = self.usdpricetotal / self.primarytokenamount
+        logger.info("Calculated Dollar price per token: ${}".format(
+            self.usdpricepertoken
+        ))
+
 
         # Calculte the price compared to the paired token
         self.pairtokenpricept = self.pairtokenamount / self.primarytokenamount
