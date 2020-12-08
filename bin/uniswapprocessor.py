@@ -1,6 +1,7 @@
 import logging
 import time
 import bin.settings as settings
+from bin.formatnumber import formatnumber
 from api.etherscan.uniswaptransactionbatch import UniswapTransactionBatch
 from api.etherscan.uniswaptransaction import UniswapTransaction
 from api.etherscan.gettokenamount import gettokenamount
@@ -57,20 +58,20 @@ class UniswapProcessor():
                     action = ut.action,
                     laction = ut.action.lower(),
                     actionicon = actionicon,
-                    primarytokenamount = round(ut.primarytokenamount,2),
+                    primarytokenamount = formatnumber(ut.primarytokenamount),
                     primarytokenname = settings.config.primarytokenname,
                     primarytokensymbol = settings.config.primarytokensymbol,
-                    pairtokenamount = round(ut.pairtokenamount,2),
+                    pairtokenamount = formatnumber(ut.pairtokenamount),
                     pairtokenname = ut.pairtoken.tokenname,
-                    pairtokeneurprice = round(ut.pairtoken.eurprice,2),
-                    pairtokenusdprice = round(ut.pairtoken.usdprice,2),
-                    eurpricetotal = round(ut.eurpricetotal,2),
-                    usdpricetotal = round(ut.usdpricetotal,2),
+                    pairtokeneurprice = formatnumber(ut.pairtoken.eurprice),
+                    pairtokenusdprice = formatnumber(ut.pairtoken.usdprice),
+                    eurpricetotal = formatnumber(ut.eurpricetotal),
+                    usdpricetotal = formatnumber(ut.usdpricetotal),
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
-                    eurpricepertoken= round(ut.eurpricepertoken,2),
-                    usdpricepertoken= round(ut.usdpricepertoken,2),
-                    pairtokenpricept = round(ut.pairtokenpricept,8),
+                    eurpricepertoken= formatnumber(ut.eurpricepertoken),
+                    usdpricepertoken= formatnumber(ut.usdpricepertoken),
+                    pairtokenpricept = formatnumber(ut.pairtokenpricept,8),
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
                 )
             elif ut.action == 'Liquidity Added' or \
@@ -106,17 +107,17 @@ class UniswapProcessor():
                 ).format(
                     action = ut.action,
                     actionicon = actionicon,
-                    primarytokenamount = round(ut.primarytokenamount,2),
+                    primarytokenamount = formatnumber(ut.primarytokenamount),
                     primarytokensymbol = settings.config.primarytokensymbol,
-                    pairtokenamount = round(ut.pairtokenamount,2),
+                    pairtokenamount = formatnumber(ut.pairtokenamount),
                     pairtokenname = ut.pairtoken.tokenname,
-                    eurpricetotal = round(ut.eurpricetotal,2) * 2,
-                    usdpricetotal = round(ut.usdpricetotal,2) * 2,
+                    eurpricetotal = formatnumber(ut.eurpricetotal * 2),
+                    usdpricetotal = formatnumber(ut.usdpricetotal * 2),
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),
-                    pairtokenatuniswap = round(pairtokenatuniswap,2),
-                    primarytokenatuniswap = round(primarytokenatuniswap,2)
+                    pairtokenatuniswap = formatnumber(pairtokenatuniswap),
+                    primarytokenatuniswap = formatnumber(primarytokenatuniswap)
                 )
 
             for channel in settings.config.telegramactivatedchannels:
