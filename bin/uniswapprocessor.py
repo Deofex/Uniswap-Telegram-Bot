@@ -53,7 +53,11 @@ class UniswapProcessor():
                 "<b>TX here:</b> "
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
                 "<b>Wallet:</b> "
-                "<a href=\"https://etherscan.io/address/{wallet}\">{wallet}</a>"
+                "<a href=\"https://etherscan.io/address/{wallet}\">"
+                "{wallet}</a>\n"
+                "<b>Uniswap pair:</b> "
+                "<a href=\"https://info.uniswap.org/pair/{uniswapaddress}\">"
+                "link</a>"
                 ).format(
                     action = ut.action,
                     laction = ut.action.lower(),
@@ -72,7 +76,8 @@ class UniswapProcessor():
                     eurpricepertoken= formatnumber(ut.eurpricepertoken),
                     usdpricepertoken= formatnumber(ut.usdpricepertoken),
                     pairtokenpricept = formatnumber(ut.pairtokenpricept,8),
-                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1)
+                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),
+                    uniswapaddress = settings.config.uniswapaddress
                 )
             elif ut.action == 'Liquidity Added' or \
                 ut.action == 'Liquidity Removed':
@@ -101,8 +106,9 @@ class UniswapProcessor():
                 "<a href=\"https://etherscan.io/tx/{txhash}\">link</a>\n"
                 "<b>Wallet:</b> "
                 "<a href=\"https://etherscan.io/address/{wallet}\">{wallet}</a>\n"
-                "<b>Pair:</b> "
-                "<a href=\"https://info.uniswap.org/pair/0x2680a95fc9de215f1034f073185cc1f2a28b4107">link</a>"
+                "<b>Uniswap pair:</b> "
+                "<a href=\"https://info.uniswap.org/pair/{uniswapaddress}\">"
+                "link</a>"
                 "\n\n<b>New pooled token amounts:</b>\n"
                 "Pooled {pairtokenname}: {pairtokenatuniswap}\n"
                 "Pooled {primarytokensymbol}: {primarytokenatuniswap}"
@@ -119,7 +125,8 @@ class UniswapProcessor():
                     blocknumber = ut.blocknumber,
                     wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),
                     pairtokenatuniswap = formatnumber(pairtokenatuniswap),
-                    primarytokenatuniswap = formatnumber(primarytokenatuniswap)
+                    primarytokenatuniswap = formatnumber(primarytokenatuniswap),
+                    uniswapaddress = settings.config.uniswapaddress
                 )
 
             for channel in settings.config.telegramactivatedchannels:
