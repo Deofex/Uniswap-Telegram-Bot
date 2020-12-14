@@ -62,7 +62,6 @@ class Config():
         logger.info('Last processed Telegram update ID: {}'.format(
             self.telegramlastprocessedupdateid
         ))
-
         if self.config['Telegram']['telegramactivatedchannels'] != "None":
             self.telegramactivatedchannels = \
                 self.config['Telegram']['telegramactivatedchannels'].split(",")
@@ -76,6 +75,12 @@ class Config():
                 self.lastprocessedblocknumber))
         else:
             logger.info('No last processed blocknumber found in config')
+        # Import advanced info
+        self.pairtokendecimals = \
+            self.config['Advanced']['pairtokendecimals']
+        logger.info('Pair token decimals: {}'.format(
+            self.pairtokendecimals
+        ))
 
     def writetofile(self):
         logger.info('Writing config file')

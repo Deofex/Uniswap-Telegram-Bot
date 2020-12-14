@@ -129,7 +129,8 @@ class UniswapTransaction():
             # Processing the amount of tokens which has been send
             data = logentry["data"]
             self.pairtokenamount = Decimal(
-                str(int(data,16))) / 1000000000000000000
+                str(int(data,16))) / int(str(
+                    "1" + int(settings.config.pairtokendecimals) *"0"))
             logger.info("{} amount involved in transactions: {}".format(
                 self.pairtoken.tokenname, self.pairtokenamount))
 

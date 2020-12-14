@@ -16,3 +16,6 @@ lastprocessedblocknumber = 0
 telegramapitoken = TELEGRAMAPITOKENHERE
 telegramactivatedchannels = None
 telegramlastprocessedupdateid = 0
+
+[Advanced]
+pairtokendecimals = 18
