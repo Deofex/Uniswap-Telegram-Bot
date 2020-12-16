@@ -2,6 +2,7 @@ import logging
 import time
 import bin.settings as settings
 from bin.formatnumber import formatnumber
+from bin.wallettostring import wallettostring
 from api.etherscan.uniswaptransactionbatch import UniswapTransactionBatch
 from api.etherscan.uniswaptransaction import UniswapTransaction
 from api.etherscan.gettokenamount import gettokenamount
@@ -77,7 +78,7 @@ class UniswapProcessor():
                     eurpricepertoken= formatnumber(ut.eurpricepertoken),
                     usdpricepertoken= formatnumber(ut.usdpricepertoken),
                     pairtokenpricept = formatnumber(ut.pairtokenpricept,8),
-                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),
+                    wallet = wallettostring(ut.wallet),
                     uniswapaddress = settings.config.uniswapaddress
                 )
             elif ut.action == 'Liquidity Added' or \
@@ -124,7 +125,7 @@ class UniswapProcessor():
                     usdpricetotal = formatnumber(ut.usdpricetotal * 2),
                     txhash = ut.txhash,
                     blocknumber = ut.blocknumber,
-                    wallet = "{0:#0{1}x}".format(int(ut.wallet,16),1),
+                    wallet = wallettostring(ut.wallet),
                     pairtokenatuniswap = formatnumber(pairtokenatuniswap),
                     primarytokenatuniswap = formatnumber(primarytokenatuniswap),
                     uniswapaddress = settings.config.uniswapaddress
