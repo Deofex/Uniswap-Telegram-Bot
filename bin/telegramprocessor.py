@@ -1,4 +1,5 @@
 import logging
+import time
 import bin.settings as settings
 from api.telegram.telegramupdates import TelegramUpdates
 
@@ -64,5 +65,9 @@ class TelegramProcessor():
     def start(self, pollinterval=60):
         logger.info("Starting Telegram processor cycle")
         while True:
-            self.process_telegramupdatebatch()
-            logger.info("Telegram cycle keep alive message")
+            try:
+                self.process_telegramupdatebatch()
+                logger.info("Telegram cycle keep alive message")
+            except:
+                logger.error("Telegram processor run failed")
+                time.sleep(10)

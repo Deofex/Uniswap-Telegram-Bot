@@ -143,8 +143,12 @@ class UniswapProcessor():
         logger.info("Starting Uniswap processor cycle "
         " with a poll interval of: {} seconds".format(pollinterval))
         while True:
-            self.process_uniswaptransactionbatch()
-            logger.info(
-                "Uniswap processor cycle finished, waiting {} seconds".format(
-                    pollinterval))
-            time.sleep(pollinterval)
+            try:
+                self.process_uniswaptransactionbatch()
+                logger.info(("Uniswap processor cycle finished, waiting {} "
+                "seconds").format(
+                        pollinterval))
+                time.sleep(pollinterval)
+            except:
+                logger.error("Uniswap Processor run failed")
+                time.sleep(10)
