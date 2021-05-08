@@ -58,7 +58,7 @@ class UniswapProcessor():
                 "<a href=\"https://etherscan.io/address/{wallet}\">"
                 "{wallet}</a>\n"
                 "<b>Uniswap pair:</b> "
-                "<a href=\"https://info.uniswap.org/pair/{uniswapaddress}\">"
+                "<a href=\"https://v2.info.uniswap.org/pair/{uniswapaddress}\">"
                 "link</a>"
                 ).format(
                     action = ut.action,
@@ -109,7 +109,7 @@ class UniswapProcessor():
                 "<b>Wallet:</b> "
                 "<a href=\"https://etherscan.io/address/{wallet}\">{wallet}</a>\n"
                 "<b>Uniswap pair:</b> "
-                "<a href=\"https://info.uniswap.org/pair/{uniswapaddress}\">"
+                "<a href=\"https://v2.info.uniswap.org/pair/{uniswapaddress}\">"
                 "link</a>"
                 "\n\n<b>New pooled token amounts:</b>\n"
                 "Pooled {pairtokenname}: {pairtokenatuniswap}\n"
