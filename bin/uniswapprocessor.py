@@ -32,6 +32,11 @@ class UniswapProcessor():
                     transactionhash))
                 continue
 
+            # If wallet is None, skip to the next hash
+            # Implemented for very rare transactions like (rare swap)
+            # 0x02d3cd8e60ed3bac6bd32d75e32326d84ffdc38f1ab3d37c69127e050a07ac4c
+            if ut.wallet == None:
+                continue
             # Send message to active Telegram channels with the information
             # gathered earlier
             if ut.action == "Sold" or ut.action == "Bought":
